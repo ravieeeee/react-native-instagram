@@ -2,22 +2,16 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
-  AsyncStorage,
   ScrollView
 } from 'react-native';
-import { Card, Button } from 'react-native-elements'
+import { Card } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { fetchMyPosts } from '../actions/posts';
+import { fetchPosts } from '../../actions/posts';
 
 
-class ProfileScreen extends Component {
-  static navigationOptions = {
-    title: 'Profile',
-  };
-
+class PostCard extends Component {
   componentDidMount() {
-    this.props.fetchMyPosts();
+    this.props.fetchPosts();
   }
 
   renderPosts() {
@@ -45,33 +39,17 @@ class ProfileScreen extends Component {
     }
   }
 
-  render() {
+  render() {    
     return (
       <ScrollView>
         {this.renderPosts()}
       </ScrollView>
     );
   }
-
-  _showMoreApp = () => {
-    this.props.navigation.navigate('Other');
-  };
-
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth');
-  };
 }
 
 function mapStateToProps(state) {
-  return { posts: state.myPosts };
+  return { posts: state.posts };
 }
 
-export default connect(mapStateToProps, { fetchMyPosts })(ProfileScreen);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
+export default connect(mapStateToProps, { fetchPosts })(PostCard);

@@ -2,11 +2,27 @@ var express = require('express');
 var router = express.Router();
 var Post = require('../models').Post;
 var catchErrors = require('../async-error');
+var Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 // 기본경로 : /posts
-// 글 전체 목록
-router.get('/', catchErrors(async (req, res) => {
-  const posts = await Post.all();
+router.get('/mine/:id', catchErrors(async (req, res) => {
+  const posts = await Post.findAll({
+    where: {
+      name: req.params.id
+    }
+  });
+  res.status(200).send(posts);
+}));
+
+router.get('/others/:id', catchErrors(async (req, res) => {
+  const posts = await Post.findAll({
+    where: {
+      name: {
+        [Op.ne] : req.params.id
+      }
+    }
+  });
   res.status(200).send(posts);
 }));
 

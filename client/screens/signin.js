@@ -7,7 +7,7 @@ import {
   AsyncStorage,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { signin } from '../actions';
+import { signin } from '../actions/users';
 
 class SignInScreen extends React.Component {
   static navigationOptions = {

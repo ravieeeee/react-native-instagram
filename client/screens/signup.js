@@ -8,7 +8,7 @@ import {
   BackHandler
 } from 'react-native';
 import { connect } from 'react-redux';
-import { signUp } from '../actions';
+import { signUp } from '../actions/users';
 
 
 class SignUpScreen extends Component {

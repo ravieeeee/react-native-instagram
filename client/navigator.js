@@ -19,7 +19,7 @@ import { Theme } from './config';
 
 const AuthStack = createStackNavigator({ SignIn: SignInScreen });
 const AuthStack2 = createStackNavigator({ SignUp: SignUpScreen });
-const HomeStack = createStackNavigator({ Home: HomeScreen, Profile: ProfileScreen });
+const HomeStack = createStackNavigator({ Home: HomeScreen });
 const SearchStack = createStackNavigator({ Search: SearchScreen });
 const WriteStack = createStackNavigator({ Write: WriteScreen });
 const HeartStack = createStackNavigator({ Heart: HeartScreen });
@@ -72,6 +72,7 @@ const AppNavigator = createSwitchNavigator(
     App: RootStack,
     Auth: AuthStack,
     SignUp: AuthStack2,
+    Profile: ProfileScreen,
   },
   {
     initialRouteName: 'AuthLoading',

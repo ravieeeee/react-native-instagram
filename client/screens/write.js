@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, View, Alert } from 'react-native';
 import { FormLabel } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { addPost } from '../actions';
+import { addPost } from '../actions/posts';
 
 
 class WriteScreen extends Component {
