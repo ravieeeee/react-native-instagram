@@ -1,6 +1,6 @@
 import axios from 'axios';
 import qs from 'qs';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, ToastAndroid } from 'react-native';
 import { Config } from '../config';
 import NavigationService from '../navigation_service';
 
@@ -58,21 +58,5 @@ export function signout() {
     delete axios.defaults.headers.common['Authorization'];
     await AsyncStorage.clear();
     NavigationService.navigate('Auth');
-  };
-}
-
-export function fetchUsers() {
-  return async dispatch => {
-    console.log(axios.defaults.headers.common);
-    axios.get(`${Config.server}/api/users`).then( response => {
-      dispatch({type: 'FETCHED_USERS', payload: response.data});
-    }).catch(err => {
-      console.log(err.response);
-      if (err.response.status == 401) {
-        dispatch(signout());
-      } else {
-        alert('Network Error');
-      }
-    });
   };
 }

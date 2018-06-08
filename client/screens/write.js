@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, Alert } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Alert, Button } from 'react-native';
 import { FormLabel } from 'react-native-elements';
 import { connect } from 'react-redux';
+
 import { addPost } from '../actions/posts';
 
 
@@ -35,22 +36,28 @@ class WriteScreen extends Component {
 
   render() {
     return (
-      <View>
-        <FormLabel>Title</FormLabel>
-        <TextInput
-          style={ styles.titleInputStyle }
-          placeholder="Type here to translate!"
-          onChangeText={(title) => this.setState({title})}
-        />
-        <FormLabel>Content</FormLabel>
-        <TextInput
-          style={ styles.contentInputStyle }
-          blurOnSubmit={true}
-          multiline={true}
-          placeholder="Type here to translate!"
-          onChangeText={(content) => this.setState({content})}
-          onSubmitEditing={this.onKeyPress}
-        />
+      <View style={styles.root}>
+        <View>
+          <FormLabel>Title</FormLabel>
+          <TextInput
+            style={styles.titleInputStyle}
+            placeholder="Type here to translate!"
+            onChangeText={(title) => this.setState({title})}
+          />
+        </View>
+        <View>
+          <FormLabel>Content</FormLabel>
+          <TextInput
+            style={styles.contentInputStyle}
+            multiline={true}
+            placeholder="Type here to translate!"
+            onChangeText={(content) => this.setState({content})}
+          />
+        </View>
+        <Button title="Submit" onPress={() => {
+          this.onKeyPress()
+        }} disabled={!this.state.title || !this.state.content }
+          style={styles.button}/>
       </View>
     );
   }
@@ -59,6 +66,9 @@ class WriteScreen extends Component {
 export default connect(null, { addPost })(WriteScreen);
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
   titleInputStyle: {
     backgroundColor: "#fff",
     height: 40,
@@ -70,11 +80,14 @@ const styles = StyleSheet.create({
   },
   contentInputStyle: {
     backgroundColor: "#fff",
-    height: 100,
     margin: 5,
     padding: 10,
     borderWidth: 1,
     borderColor: "#eee",
     borderRadius: 10
-  }
+  },
+  button: {
+    alignSelf: 'stretch',
+    marginTop: 5,
+  },
 });

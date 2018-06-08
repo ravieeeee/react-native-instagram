@@ -7,7 +7,10 @@ import {
   AsyncStorage,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { Text } from 'react-native-elements';
+
 import { signin } from '../actions/users';
+
 
 class SignInScreen extends React.Component {
   static navigationOptions = {
@@ -25,24 +28,28 @@ class SignInScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Text h1 style={{marginBottom: 30}}>Instagram</Text>
+
         <TextInput placeholder="Username" style={styles.input}
           onChangeText={(username) => this.setState({ username })}
           spellCheck={false}
           autoCorrect={false}
           autoCapitalize='none'
-          value={this.state.username}
-          />
+          value={this.state.username} />
         <TextInput placeholder="Password" style={styles.input}
           onChangeText={(password) => this.setState({ password })}
           value={this.state.password}
           secureTextEntry={true} />
-        <Button title="Sign in" onPress={() => {
-          this.props.signin(this.state.username, this.state.password);
-        }} disabled={!this.state.username || !this.state.password }
-          style={styles.button}/>
-        <Button title="Sign up" onPress={() => {
-          this.props.navigation.navigate('SignUp');
-        }} style={styles.button}/>
+        <View style={{ flexDirection: 'row' }}>
+          <Button title="Sign in" onPress={() => {
+            this.props.signin(this.state.username, this.state.password);
+          }} disabled={!this.state.username || !this.state.password }
+            style={styles.button} />
+          <View style={{ margin: 5}} />
+          <Button title="Sign up" onPress={() => {
+            this.props.navigation.navigate('SignUp');
+          }} style={styles.button} />
+        </View>
       </View>
     );
   }
@@ -53,10 +60,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
   },
   button: {
-    alignSelf: "stretch",
+    marginRight: 20,
   },
   input: {
     alignSelf: "stretch",

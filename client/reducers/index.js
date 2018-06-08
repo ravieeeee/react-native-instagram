@@ -1,13 +1,5 @@
 import { combineReducers } from 'redux';
 
-function users(state = [], action) {
-  switch (action.type) {
-    case 'FETCHED_USERS':
-      return action.payload;
-    default:
-      return state;
-  }
-}
 
 function currentUser(state = {}, action) {
   switch (action.type) {
@@ -22,6 +14,17 @@ function posts(state = [], action) {
   switch (action.type) {
     case 'FETCHED_POSTS':
       return action.payload;
+    case 'INCREMENT_LIKE':
+      return state.map((item, index) => {
+        if (index !== action.idx) {
+          return item;
+        }
+
+        return {
+          ...item,
+          ...action.changed_item
+        };
+      });
     default:
       return state;
   }
@@ -38,11 +41,20 @@ function myPosts(state = [], action) {
   }
 }
 
+function likelogs(state = [], action) {
+  switch (action.type) {
+    case 'FETCHED_LOGS':
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 const rootReducer = combineReducers({
   currentUser,
-  users,
   posts,
-  myPosts
+  myPosts,
+  likelogs
 });
 
 export default rootReducer;

@@ -11,13 +11,18 @@ import HeartScreen from './screens/heart';
 import WriteScreen from './screens/write';
 import SearchScreen from './screens/search';
 import ProfileScreen from './screens/profile';
-import OtherScreen from './screens/other';
 import SignInScreen from './screens/signin';
 import SignUpScreen from './screens/signup';
 
 import { Theme } from './config';
 
-const AuthStack = createStackNavigator({ SignIn: SignInScreen });
+const noHeader = {
+  headerMode: 'none',
+  navigationOptions: {
+    headerVisible: false,
+  }};
+
+const AuthStack = createStackNavigator({ SignIn: SignInScreen }, noHeader);
 const AuthStack2 = createStackNavigator({ SignUp: SignUpScreen });
 const HomeStack = createStackNavigator({ Home: HomeScreen });
 const SearchStack = createStackNavigator({ Search: SearchScreen });

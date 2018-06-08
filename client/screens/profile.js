@@ -6,9 +6,11 @@ import {
   AsyncStorage,
   ScrollView
 } from 'react-native';
-import { Card, Button } from 'react-native-elements'
+import { Card, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
+
 import { fetchMyPosts } from '../actions/posts';
+import UserInfo from './containers/userInfo';
 
 
 class ProfileScreen extends Component {
@@ -33,7 +35,7 @@ class ProfileScreen extends Component {
               </Text>
               <View style={{ flexDirection: 'row' }}>
                 <Text style={{ fontWeight: 'bold' }}>
-                  {post.name}&nbsp;
+                  {post.user_name}&nbsp;
                 </Text>
                 <Text style={{ marginBottom: 10 }}>
                   {post.content}
@@ -47,9 +49,13 @@ class ProfileScreen extends Component {
 
   render() {
     return (
-      <ScrollView>
-        {this.renderPosts()}
-      </ScrollView>
+      <View>
+        <UserInfo />
+        <ScrollView>
+          {this.renderPosts()}
+        </ScrollView>
+      </View>
+      
     );
   }
 
@@ -70,8 +76,5 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, { fetchMyPosts })(ProfileScreen);
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
+
 });
