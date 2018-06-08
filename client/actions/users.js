@@ -21,10 +21,9 @@ export function signin(username, password) {
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
       await AsyncStorage.setItem('accessToken', response.data.access_token);
-      // TODO: 스토어에 저장 -> 딴데서 가져오기
-      dispatch({type: 'SINGED_IN', payload: username});
-      
-      await AsyncStorage.setItem('cur_user', username);
+      const curU = await axios.get(`${Config.server}/api/users/me`);
+      dispatch({type: 'FETCHED_CUR_USER', payload: curU.data});
+    
       NavigationService.navigate('App');
     } catch (err) {
       console.log(err.response || err);

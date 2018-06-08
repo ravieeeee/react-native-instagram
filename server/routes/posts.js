@@ -9,7 +9,7 @@ const Op = Sequelize.Op;
 router.get('/mine/:id', catchErrors(async (req, res) => {
   const posts = await Post.findAll({
     where: {
-      name: req.params.id
+      user_id: req.params.id
     }
   });
   res.status(200).send(posts);
@@ -18,11 +18,12 @@ router.get('/mine/:id', catchErrors(async (req, res) => {
 router.get('/others/:id', catchErrors(async (req, res) => {
   const posts = await Post.findAll({
     where: {
-      name: {
+      user_id: {
         [Op.ne] : req.params.id
       }
     }
   });
+  console.log('서버 ', posts);
   res.status(200).send(posts);
 }));
 
@@ -42,7 +43,7 @@ router.put('/:id', catchErrors(async (req, res) => {
   if (post) {
     await post.update({
       title: req.body.title || post.title,
-      name: req.body.name || post.name,
+      user_id: req.body.user_id || post.user_id,
       image: req.body.image || post.image,
       heart: req.body.heart || post.heart,
       content: req.body.content || post.content
@@ -57,7 +58,7 @@ router.put('/:id', catchErrors(async (req, res) => {
 router.post('/', catchErrors(async (req, res) => {
   const post = await Post.create({
     title: req.body.title,
-    name: req.body.name,
+    user_id: req.body.user_id,
     image: req.body.image,
     heart: req.body.heart,
     content: req.body.content

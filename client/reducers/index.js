@@ -11,7 +11,7 @@ function users(state = [], action) {
 
 function currentUser(state = {}, action) {
   switch (action.type) {
-    case 'SINGED_IN':
+    case 'FETCHED_CUR_USER':
       return action.payload;
     default:
       return state;

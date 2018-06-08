@@ -22,12 +22,17 @@ module.exports = function(app) {
   }));
 
   router.use(app.oauth.authenticate());
-  router.use('/me', (req, res) => {
-    res.json(req.locals.user);
-  });
+  
+  router.use('/me', asyncError(async (req, res, next) => {
+    const curUserId = req.res.locals.oauth.token.user.id;
+    const user = await db.User.findById(curUserId);
+    res.json(user);
+  }));
+
   router.get('/', asyncError(async (req, res, next) => {
     const users = await db.User.findAll({});
     res.json(users);
   }));
+
   return router;
 };

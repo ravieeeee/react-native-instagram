@@ -4,11 +4,11 @@ import { Config } from '../config';
 import NavigationService from '../navigation_service';
 
 
-export function fetchPosts() {
-  return async dispatch => {
+export function fetchPosts(curUser) {
+  return async (dispatch, getState) => {
     try {
-      var name = await AsyncStorage.getItem('cur_user');
-      var response = await axios.get(`${Config.server}/posts/others/${name}`);
+      var id = await getState().currentUser.id;
+      var response = await axios.get(`${Config.server}/posts/others/${id}`);
       dispatch({type: 'FETCHED_POSTS', payload: response.data});
     } catch (err) {
       console.log(err.response || err);
@@ -17,10 +17,10 @@ export function fetchPosts() {
 }
 
 export function fetchMyPosts() {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
-      var name = await AsyncStorage.getItem('cur_user');
-      var response = await axios.get(`${Config.server}/posts/mine/${name}`);
+      var id = await getState().currentUser.id;
+      var response = await axios.get(`${Config.server}/posts/mine/${id}`);
       dispatch({type: 'FETCHED_MY_POSTS', payload: response.data});
     } catch (err) {
       console.log(err.response || err);
@@ -29,16 +29,18 @@ export function fetchMyPosts() {
 }
 
 export function addPost(title, content) {
-  return dispatch => {
+  return (dispatch, getState) => {
     ToastAndroid.show('글이 등록되었습니다.', ToastAndroid.SHORT);
     Promise.all([
-      AsyncStorage.getItem('cur_user'),
+      getState().currentUser.id,
       axios.get('https://picsum.photos/400/200/?random')
-    ]).then(([name, response]) => {
-      console.log(response);
+    ]).then(([user_id, response]) => {
+      console.log();
+      console.log('response : ', response.request.responseURL);
+      console.log('id는', user_id);
       var new_post = {
         title,
-        name,
+        user_id,
         image: response.request.responseURL,
         heart: 0,
         content,
@@ -47,6 +49,7 @@ export function addPost(title, content) {
         new_post, {
           headers: { 'Content-Type': 'application/json' }
         });
+    // }).then(() => {
     }).then(post => {
       dispatch({type: 'ADDED_POST', payload: post.data});
       ToastAndroid.show('글이 등록되었습니다.', ToastAndroid.SHORT);
