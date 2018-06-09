@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   AsyncStorage,
-  ScrollView
+  ScrollView,
+  TouchableHighlight,
+  Image,
+  
 } from 'react-native';
-import { Card, Button } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import { fetchMyPosts } from '../actions/posts';
@@ -14,11 +16,25 @@ import UserInfo from './containers/userInfo';
 
 
 class ProfileScreen extends Component {
-  static navigationOptions = {
-    title: 'Profile',
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Profile',
+      headerRight: (
+        <Button
+          onPress={async () => {
+            await AsyncStorage.clear();
+            navigation.navigate('Auth');
+          }} 
+          title="SignOut"
+          backgroundColor='red'
+          borderRadius={15}
+          fontWeight='bold'
+        />
+      ),
+    };
   };
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.fetchMyPosts();
   }
 
@@ -26,22 +42,15 @@ class ProfileScreen extends Component {
     if (this.props.posts) {
       return this.props.posts.map(post => {
         return (
-          <Card
-            title={post.title}
-            image={{uri: post.image}}
-            key={post.id}>
-              <Text style={{ fontWeight: 'bold' }}>
-                좋아요 {post.heart}개
-              </Text>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={{ fontWeight: 'bold' }}>
-                  {post.user_name}&nbsp;
-                </Text>
-                <Text style={{ marginBottom: 10 }}>
-                  {post.content}
-                </Text>
-              </View>
-          </Card>
+          <TouchableHighlight 
+            onPress={() => this.props.navigation.navigate('PostDetail', {post})} 
+            underlayColor={'#fff'}
+            key={post.id}
+            style={{marginRight: 1}}>
+            <Image
+              style={{width:110, height: 110}}
+              source={{uri: post.image}} />
+          </TouchableHighlight>     
         );
       });
     }
@@ -49,12 +58,12 @@ class ProfileScreen extends Component {
 
   render() {
     return (
-      <View>
+      <ScrollView >
         <UserInfo />
-        <ScrollView>
+        <View style={styles.posts}>
           {this.renderPosts()}
-        </ScrollView>
-      </View>
+        </View>
+      </ScrollView>
       
     );
   }
@@ -76,5 +85,10 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, { fetchMyPosts })(ProfileScreen);
 
 const styles = StyleSheet.create({
-
+  posts: {
+    flexDirection: 'row', 
+    flexWrap: 'wrap', 
+    justifyContent: 'center',
+    marginTop: 15,
+  }
 });

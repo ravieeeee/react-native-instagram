@@ -5,6 +5,9 @@ import {
   TextInput,
   StyleSheet,
   AsyncStorage,
+  Platform, 
+  StatusBar,
+  Image
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Text } from 'react-native-elements';
@@ -28,7 +31,9 @@ class SignInScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text h1 style={{marginBottom: 30}}>Instagram</Text>
+        <Image
+          source={require('../public/logo.png')}
+          style={{ width: 300, height: 100, marginTop: 50, marginBottom: 30 }}/>
 
         <TextInput placeholder="Username" style={styles.input}
           onChangeText={(username) => this.setState({ username })}
@@ -60,7 +65,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
   },
   button: {
     marginRight: 20,

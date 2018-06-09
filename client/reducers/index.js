@@ -35,7 +35,7 @@ function myPosts(state = [], action) {
     case 'FETCHED_MY_POSTS':
       return action.payload;
     case 'ADDED_POST':
-      return [...state, action.payload];
+      return [action.payload, ...state];
     default:
       return state;
   }

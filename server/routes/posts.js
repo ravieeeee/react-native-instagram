@@ -12,6 +12,7 @@ router.get('/mine/:id', catchErrors(async (req, res) => {
     where: {
       user_id: req.params.id
     },
+    order: [ [ 'createdAt', 'DESC' ]]
   });
   res.status(200).send(posts);
 }));

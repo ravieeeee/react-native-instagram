@@ -3,27 +3,25 @@ import {
   View,
   StyleSheet,
   AsyncStorage,
-  ScrollView
+  Image
 } from 'react-native';
-import { Button } from 'react-native-elements'
-import PostCard from './containers/card';
 
+import PostCard from './containers/cardList';
+
+
+class LogoTitle extends Component {
+  render() {
+    return (
+      <Image
+        source={require('../public/logo.png')}
+        style={{ width: 100, height: 30, marginLeft: 10 }}/>
+    );
+  }
+}
 
 export default class HomeScreen extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: 'Instagram',
-      headerRight: (
-        <Button
-          onPress={async () => {
-            await AsyncStorage.clear();
-            navigation.navigate('Auth');
-          }} 
-          title="Signout"
-          color="red"
-        />
-      ),
-    };
+  static navigationOptions = {
+    headerTitle: <LogoTitle />,
   };
 
   render() {

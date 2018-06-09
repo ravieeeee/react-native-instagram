@@ -30,8 +30,6 @@ export function fetchMyPosts() {
 
 export function addPost(title, content) {
   return (dispatch, getState) => {
-    // TODO: Loading
-    // ToastAndroid.show('글이 등록되었습니다.', ToastAndroid.SHORT);
     Promise.all([
       getState().currentUser,
       axios.get('https://picsum.photos/400/200/?random')

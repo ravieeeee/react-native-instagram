@@ -13,6 +13,7 @@ import SearchScreen from './screens/search';
 import ProfileScreen from './screens/profile';
 import SignInScreen from './screens/signin';
 import SignUpScreen from './screens/signup';
+import DetailScreen from './screens/components/postDetail';
 
 import { Theme } from './config';
 
@@ -28,7 +29,7 @@ const HomeStack = createStackNavigator({ Home: HomeScreen });
 const SearchStack = createStackNavigator({ Search: SearchScreen });
 const WriteStack = createStackNavigator({ Write: WriteScreen });
 const HeartStack = createStackNavigator({ Heart: HeartScreen });
-const ProfileStack = createStackNavigator({ Profile: ProfileScreen });
+const ProfileStack = createStackNavigator({ Profile: ProfileScreen, PostDetail: DetailScreen });
 
 const RootStack = createBottomTabNavigator(
   {
@@ -78,6 +79,7 @@ const AppNavigator = createSwitchNavigator(
     Auth: AuthStack,
     SignUp: AuthStack2,
     Profile: ProfileScreen,
+    PostDetail: DetailScreen
   },
   {
     initialRouteName: 'AuthLoading',
