@@ -6,7 +6,7 @@ import {
   Image
 } from 'react-native';
 
-import PostCard from './containers/cardList';
+import CardList from './containers/cardList';
 
 
 class LogoTitle extends Component {
@@ -28,7 +28,7 @@ export default class HomeScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={{ flex: 1, flexDirection: 'column' }}>
-          <PostCard />
+          <CardList />
         </View>
       </View>
     );

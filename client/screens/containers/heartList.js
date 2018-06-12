@@ -18,7 +18,7 @@ class HeartList extends Component {
           <View key={idx} style={styles.root}>
             <Text style={styles.txts}>
               <Text style={styles.tb}>
-                {likelog.like_name}
+                {likelog.liker_name}
               </Text>
               <Text>
                 님이 회원님의 게시물을 좋아합니다.

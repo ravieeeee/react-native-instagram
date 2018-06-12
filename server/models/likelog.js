@@ -1,8 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var LikeLog = sequelize.define('LikeLog', {
-    like_name: DataTypes.STRING,
+    liker_id: DataTypes.INTEGER,
+    liker_name: DataTypes.STRING,
     owner_id: DataTypes.INTEGER,
+    post_id: DataTypes.INTEGER,
     img: DataTypes.STRING
   }, {});
   LikeLog.associate = function(models) {

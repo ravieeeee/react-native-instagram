@@ -59,10 +59,14 @@ export function addPost(title, content) {
 export function like(post_id, idx, img, owner_id) {
   return async (dispatch, getState) => {
     try {
-      var like_name = await getState().currentUser.username;
+      var liker_name = await getState().currentUser.username;
+      var liker_id = await getState().currentUser.id;
+      
       var new_log = {
-        like_name,
+        liker_id,
+        liker_name,
         owner_id,
+        post_id,
         img
       };
       
@@ -86,6 +90,18 @@ export function fetchLikeLogs() {
       var id = await getState().currentUser.id;
       var response = await axios.get(`${Config.server}/posts/like/${id}`);
       dispatch({type: 'FETCHED_LOGS', payload: response.data});
+    } catch (err) {
+      console.log(err.response || err);
+    }
+  }
+}
+
+export function fetchOthersLikeLogs() {
+  return async (dispatch, getState) => {
+    try {
+      var id = await getState().currentUser.id;
+      var response = await axios.get(`${Config.server}/posts/like/other/${id}`);
+      dispatch({type: 'FETCHED_OTHER_LOGS', payload: response.data});
     } catch (err) {
       console.log(err.response || err);
     }

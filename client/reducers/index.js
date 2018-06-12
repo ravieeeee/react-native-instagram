@@ -50,11 +50,21 @@ function likelogs(state = [], action) {
   }
 }
 
+function otherlikelogs(state = [], action) {
+  switch (action.type) {
+    case 'FETCHED_OTHER_LOGS':
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 const rootReducer = combineReducers({
   currentUser,
   posts,
   myPosts,
-  likelogs
+  likelogs,
+  otherlikelogs
 });
 
 export default rootReducer;

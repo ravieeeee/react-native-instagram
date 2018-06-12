@@ -90,8 +90,10 @@ router.put('/like/:id', catchErrors(async (req, res) => {
     );
 
     await LikeLog.create({
-      like_name: req.body.like_name,
+      liker_id: req.body.liker_id,
+      liker_name: req.body.liker_name,
       owner_id: req.body.owner_id,
+      post_id: req.body.post_id,
       img: req.body.img,
     });
     
@@ -101,7 +103,7 @@ router.put('/like/:id', catchErrors(async (req, res) => {
   }
 }));
 
-// 좋아요 로그
+// 좋아요 로그(나)
 router.get('/like/:id', catchErrors(async (req, res) => {
   const likeLogs = await LikeLog.findAll({
     where: {
@@ -111,5 +113,20 @@ router.get('/like/:id', catchErrors(async (req, res) => {
   });
   res.status(200).send(likeLogs);
 }));
+
+// 좋아요 로그(다른사람에 대한)
+router.get('/like/other/:id', catchErrors(async (req, res) => {
+  const likeLogs = await LikeLog.findAll({
+    where: {
+      owner_id: {
+        [Op.ne] : req.params.id
+      },
+      liker_id: req.params.id
+    }
+  });
+  res.status(200).send(likeLogs);
+}));
+
+
 
 module.exports = router;
