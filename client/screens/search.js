@@ -29,9 +29,9 @@ class SearchScreen extends Component {
       this.props.searched.map(post => {
         return (
           <PostCard
-          key={post.id} 
-          post={post}
-          purpose='search' />
+            key={post.id} 
+            post={post}
+            purpose='search' />
         );
       })
     ) : (

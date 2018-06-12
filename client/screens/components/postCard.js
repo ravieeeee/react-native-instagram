@@ -15,6 +15,7 @@ export default class PostCard extends Component {
 
     switch (this.props.purpose) {
       case 'search':
+      case 'detail':
         return (
           <Card
             title={post.title}

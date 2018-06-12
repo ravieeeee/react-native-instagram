@@ -9,7 +9,6 @@ import HeartList from './containers/heartList';
 
 
 export default class HeartScreen extends Component {
-
   static navigationOptions = {
     title: 'Heart',
   };

@@ -41,7 +41,6 @@ class WriteScreen extends Component {
           <FormLabel>Title</FormLabel>
           <TextInput
             style={styles.titleInputStyle}
-            placeholder="Type here to translate!"
             onChangeText={(title) => this.setState({title})}
           />
         </View>
@@ -50,7 +49,6 @@ class WriteScreen extends Component {
           <TextInput
             style={styles.contentInputStyle}
             multiline={true}
-            placeholder="Type here to translate!"
             onChangeText={(content) => this.setState({content})}
           />
         </View>
