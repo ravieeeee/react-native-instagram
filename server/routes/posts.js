@@ -127,6 +127,28 @@ router.get('/like/other/:id', catchErrors(async (req, res) => {
   res.status(200).send(likeLogs);
 }));
 
+// 검색
+router.get('/search/:keyword', catchErrors(async (req, res) => {
+  var searchResult = await Post.findAll({
+    where: {
+      title: {
+        [Op.iLike] : '%' + req.params.keyword + '%'
+      }
+    }
+  });
+  
+  if (searchResult.length === 0) {
+    searchResult = await Post.findAll({
+      where: {
+        content: {
+          [Op.iLike] : '%' + req.params.keyword + '%'
+        } 
+      }
+    });
+  }
+  res.status(200).send(searchResult);
+}));
+
 
 
 module.exports = router;

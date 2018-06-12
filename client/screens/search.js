@@ -1,54 +1,49 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
+  Text,
+  ScrollView
 } from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import { connect } from 'react-redux';
 
-// TODO: Card만 따로 빼자
-// import Post from './Post';
+import SearchBar from './containers/SearchBar';
+import PostCard from './components/postCard';
 
-var searchText = undefined;
+const renderCount = 0;
 
 
-export default class SearchScreen extends Component {
+class SearchScreen extends Component {
   static navigationOptions = {
     title: 'Search',
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      text: '',
-    };
-  }
-
-  renderPost = () => {
-    searchText = this.state.text;
-    console.log('searchText : ' + searchText);
-    this.setState({text: ''});
-  }
-
   render() {
-    console.log(this.state.text);
-    var searchResult = null;
-    // var searchResult = searchText ? (
-    //   <Post />
-    // ) : (
-    //   null
-    // );
+    var warnMsg = renderCount === 1 ? (
+      null
+    ) : (
+      <Text>검색 결과가 없습니다.</Text>
+    );
+
+    var searchResult = this.props.searched.length > 0 ? (
+      this.props.searched.map(post => {
+        return (
+          <PostCard
+          key={post.id} 
+          post={post}
+          purpose='search' />
+        );
+      })
+    ) : (
+      warnMsg
+    );
 
     return (
       <View style={styles.container}>
-        <SearchBar
-          lightTheme
-          onChangeText={(text) => this.setState({text})}
-          onSubmitEditing={this.renderPost}
-          icon={{ type: 'font-awesome', name: 'search' }}
-          placeholder='Type Here...' />
-
+        <SearchBar />
+        <ScrollView>
           {searchResult}
+        </ScrollView>
       </View>
     );
   }
@@ -59,3 +54,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
+
+function mapStateToProps(state) {
+  if (renderCount < 2) {
+    renderCount++;
+  } 
+  return { searched: state.searched };
+}
+
+export default connect(mapStateToProps, { })(SearchScreen);

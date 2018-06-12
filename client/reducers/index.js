@@ -59,12 +59,22 @@ function otherlikelogs(state = [], action) {
   }
 }
 
+function searched(state = [], action) {
+  switch (action.type) {
+    case 'FETCHED_SEARCHED':
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 const rootReducer = combineReducers({
   currentUser,
   posts,
   myPosts,
   likelogs,
-  otherlikelogs
+  otherlikelogs,
+  searched
 });
 
 export default rootReducer;

@@ -29,11 +29,10 @@ class CardList extends Component {
 
   renderPosts() {
     if (this.props.posts && this.props.alreadyLikes) {
-      console.log(this.props.alreadyLikes);
-        
       return this.props.posts.map((post, idx) => {
         return (
-          <PostCard 
+          <PostCard
+            purpose='list'
             key={post.id} 
             post={post} 
             onPress={this.onPress} 

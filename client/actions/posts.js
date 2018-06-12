@@ -107,3 +107,15 @@ export function fetchOthersLikeLogs() {
     }
   }
 }
+
+export function fetchSearched(keyword) {
+  return async (dispatch) => {
+    try {
+      var searched = await axios.get(`${Config.server}/posts/search/${keyword}`);
+      console.log(searched.data);
+      dispatch({type: 'FETCHED_SEARCHED', payload: searched.data});
+    } catch (err) {
+      console.log(err.response || err);
+    }
+  }
+}
