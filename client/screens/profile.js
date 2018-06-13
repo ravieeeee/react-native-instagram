@@ -6,7 +6,6 @@ import {
   ScrollView,
   TouchableHighlight,
   Image,
-  
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -64,13 +63,8 @@ class ProfileScreen extends Component {
           {this.renderPosts()}
         </View>
       </ScrollView>
-      
     );
   }
-
-  _showMoreApp = () => {
-    this.props.navigation.navigate('Other');
-  };
 
   _signOutAsync = async () => {
     await AsyncStorage.clear();

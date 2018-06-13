@@ -13,10 +13,11 @@ class CardList extends Component {
     this.state = {
       likes: [],
     }
+
+    this.props.fetchPosts();
   }
 
   componentWillMount() {
-    this.props.fetchPosts();
     this.props.fetchOthersLikeLogs();
   }
 
@@ -37,13 +38,14 @@ class CardList extends Component {
             post={post} 
             onPress={this.onPress} 
             idx={idx}
-            isColor={this.state.likes.includes(post.id) || this.props.alreadyLikes.includes(post.id)} />
+            isColor={this.state.likes.includes(post.id) 
+              || this.props.alreadyLikes.includes(post.id)} />
         );
       });
     }
   }
 
-  render() {    
+  render() {
     return (
       <ScrollView>
         {this.renderPosts()}

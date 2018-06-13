@@ -10,7 +10,6 @@ import {
   Image
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Text } from 'react-native-elements';
 
 import { signin } from '../actions/users';
 

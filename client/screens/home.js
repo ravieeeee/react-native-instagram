@@ -27,21 +27,10 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={{ flex: 1, flexDirection: 'column' }}>
-          <CardList />
-        </View>
+        <CardList />
       </View>
     );
   }
-
-  _showMoreApp = () => {
-    this.props.navigation.navigate('Other');
-  };
-
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth');
-  };
 }
 
 const styles = StyleSheet.create({

@@ -1,7 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
-import { StyleSheet, Text, View, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { createSwitchNavigator, createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
@@ -13,7 +10,7 @@ import SearchScreen from './screens/search';
 import ProfileScreen from './screens/profile';
 import SignInScreen from './screens/signin';
 import SignUpScreen from './screens/signup';
-import DetailScreen from './screens/components/postDetail';
+import DetailScreen from './screens/detail';
 
 import { Theme } from './config';
 

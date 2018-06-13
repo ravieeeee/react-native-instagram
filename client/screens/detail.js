@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import PostCard from './postCard';
+import PostCard from './components/postCard';
 
 
 export default class PostDetail extends Component {

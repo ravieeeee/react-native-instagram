@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import SearchBar from './containers/SearchBar';
+import SearchBar from './containers/searchBar';
 import PostCard from './components/postCard';
 
 const renderCount = 0;

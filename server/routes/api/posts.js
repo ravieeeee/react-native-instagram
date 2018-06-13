@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var Post = require('../models').Post;
-var LikeLog = require('../models').LikeLog;
-var catchErrors = require('../async-error');
+var Post = require('../../models').Post;
+var LikeLog = require('../../models').LikeLog;
+var catchErrors = require('../../utils/async-error');
 var Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
-// 기본경로 : /posts
+
 router.get('/mine/:id', catchErrors(async (req, res) => {
   const posts = await Post.findAll({
     where: {
@@ -131,24 +131,18 @@ router.get('/like/other/:id', catchErrors(async (req, res) => {
 router.get('/search/:keyword', catchErrors(async (req, res) => {
   var searchResult = await Post.findAll({
     where: {
-      title: {
-        [Op.iLike] : '%' + req.params.keyword + '%'
-      }
+      [Op.or] : [
+        {title: {
+          [Op.iLike] : '%' + req.params.keyword + '%'
+        }},
+        {content: {
+          [Op.iLike] : '%' + req.params.keyword + '%'
+        }}
+      ]
     }
   });
-  
-  if (searchResult.length === 0) {
-    searchResult = await Post.findAll({
-      where: {
-        content: {
-          [Op.iLike] : '%' + req.params.keyword + '%'
-        } 
-      }
-    });
-  }
   res.status(200).send(searchResult);
 }));
-
 
 
 module.exports = router;

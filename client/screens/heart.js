@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
 } from 'react-native';
 
@@ -20,11 +19,6 @@ export default class HeartScreen extends Component {
       </View>
     );
   }
-
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth');
-  };
 }
 
 const styles = StyleSheet.create({

@@ -19,11 +19,7 @@ function posts(state = [], action) {
         if (index !== action.idx) {
           return item;
         }
-
-        return {
-          ...item,
-          ...action.changed_item
-        };
+        return { ...item, ...action.changed_item };
       });
     default:
       return state;

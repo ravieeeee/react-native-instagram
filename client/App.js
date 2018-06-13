@@ -1,13 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { createSwitchNavigator, createStackNavigator, createBottomTabNavigator } from 'react-navigation';
-// Implementation of HomeScreen, OtherScreen, SignInScreen, AuthLoadingScreen
-// goes here.
-
-import {Theme} from './config';
-
-import { Provider } from "react-redux";
+import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers';

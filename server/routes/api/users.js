@@ -1,12 +1,10 @@
 var express = require('express');
-var axios = require('axios');
 
 var db = require('../../models');
 const asyncError = require('../../utils/async-error');
 var router = express.Router();
 
 module.exports = function(app) {
-  //    /api/users
   router.post('/', asyncError(async (req, res, next) => {
     db.User.create({
       username: req.body.username,

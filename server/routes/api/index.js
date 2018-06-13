@@ -8,7 +8,7 @@ module.exports = function(app) {
     console.log(req.headers);
     next();
   });
-  // 토큰 생성하는 부분
+  
   router.post('/oauth/token', app.oauth.token());
   router.use('/users', require('./users')(app));
 
