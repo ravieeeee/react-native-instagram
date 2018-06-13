@@ -4,7 +4,7 @@ import { Config } from '../config';
 import NavigationService from '../navigation_service';
 
 
-export function fetchPosts(curUser) {
+export function fetchPosts() {
   return async (dispatch, getState) => {
     try {
       var id = await getState().currentUser.id;
