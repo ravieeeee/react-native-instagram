@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Platform, 
   StatusBar,
-  Text
+  Text,
+  KeyboardAvoidingView
 } from 'react-native';
 import { Font } from 'expo';
 import { connect } from 'react-redux';
@@ -39,7 +40,7 @@ class SignInScreen extends React.Component {
   
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         { 
           this.state.fontLoaded ? (
             <Text style = {styles.titleText}>
@@ -47,7 +48,7 @@ class SignInScreen extends React.Component {
             </Text>
           ) : null
         }
-        
+
         <TextInput 
           placeholder="Username" 
           style={styles.input}
@@ -56,14 +57,14 @@ class SignInScreen extends React.Component {
           autoCorrect={false}
           autoCapitalize='none'
           value={this.state.username} />
-          
+            
         <TextInput 
           placeholder="Password" 
           style={styles.input}
           onChangeText={(password) => this.setState({ password })}
           value={this.state.password}
           secureTextEntry={true} />
-
+      
         <View style={{ flexDirection: 'row' }}>
           <Button 
             title="Sign in" 
@@ -80,7 +81,7 @@ class SignInScreen extends React.Component {
             }} 
             style={styles.button} />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -90,27 +91,25 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
+    justifyContent: 'center',
     paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
   },
   titleText: {
     fontFamily: 'pacifico-regular',
     fontSize: 60,
-    marginTop: 50, 
-    marginBottom: 30,
   },
   button: {
     marginRight: 20,
   },
   input: {
-    alignSelf: "stretch",
+    alignSelf: 'stretch',
     height: 40,
     margin: 20,
     marginBottom: 5,
     marginTop: 5,
     fontSize: 15,
     borderWidth: 1,
-    borderColor: 'royalblue',
-    padding: 5
+    padding: 5,
   }
 });
 
