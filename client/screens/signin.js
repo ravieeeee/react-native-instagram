@@ -4,11 +4,11 @@ import {
   Button,
   TextInput,
   StyleSheet,
-  AsyncStorage,
   Platform, 
   StatusBar,
-  Image
+  Text
 } from 'react-native';
+import { Font } from 'expo';
 import { connect } from 'react-redux';
 
 import { signin } from '../actions/users';
@@ -21,38 +21,64 @@ class SignInScreen extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
+      fontLoaded: false,
       username: '',
       password: ''
     };
+  }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      'pacifico-regular': require('../assets/fonts/pacifico-regular.ttf'),
+    });
+
+    this.setState({ fontLoaded: true });
   }
   
   render() {
     return (
       <View style={styles.container}>
-        <Image
-          source={require('../public/logo.png')}
-          style={{ width: 300, height: 100, marginTop: 50, marginBottom: 30 }}/>
-
-        <TextInput placeholder="Username" style={styles.input}
+        { 
+          this.state.fontLoaded ? (
+            <Text style = {styles.titleText}>
+              Instagram
+            </Text>
+          ) : null
+        }
+        
+        <TextInput 
+          placeholder="Username" 
+          style={styles.input}
           onChangeText={(username) => this.setState({ username })}
           spellCheck={false}
           autoCorrect={false}
           autoCapitalize='none'
           value={this.state.username} />
-        <TextInput placeholder="Password" style={styles.input}
+          
+        <TextInput 
+          placeholder="Password" 
+          style={styles.input}
           onChangeText={(password) => this.setState({ password })}
           value={this.state.password}
           secureTextEntry={true} />
+
         <View style={{ flexDirection: 'row' }}>
-          <Button title="Sign in" onPress={() => {
-            this.props.signin(this.state.username, this.state.password);
-          }} disabled={!this.state.username || !this.state.password }
+          <Button 
+            title="Sign in" 
+            onPress={() => {
+              this.props.signin(this.state.username, this.state.password);
+            }} 
+            disabled={!this.state.username || !this.state.password }
             style={styles.button} />
           <View style={{ margin: 5}} />
-          <Button title="Sign up" onPress={() => {
-            this.props.navigation.navigate('SignUp');
-          }} style={styles.button} />
+          <Button 
+            title="Sign up" 
+            onPress={() => {
+              this.props.navigation.navigate('SignUp');
+            }} 
+            style={styles.button} />
         </View>
       </View>
     );
@@ -65,6 +91,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight
+  },
+  titleText: {
+    fontFamily: 'pacifico-regular',
+    fontSize: 60,
+    marginTop: 50, 
+    marginBottom: 30,
   },
   button: {
     marginRight: 20,

@@ -2,19 +2,37 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  AsyncStorage,
-  Image
+  Text
 } from 'react-native';
+import { Font } from 'expo';
 
 import CardList from './containers/cardList';
 
 
 class LogoTitle extends Component {
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      fontLoaded: false,
+    };
+  }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      'pacifico-regular': require('../assets/fonts/pacifico-regular.ttf'),
+    });
+
+    this.setState({ fontLoaded: true });
+  }
+
   render() {
     return (
-      <Image
-        source={require('../public/logo.png')}
-        style={{ width: 100, height: 30, marginLeft: 10 }}/>
+        this.state.fontLoaded ? (
+          <Text style={styles.titleText}>
+            Instagram
+          </Text>
+        ) : null
     );
   }
 }
@@ -37,5 +55,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1, 
     flexDirection: 'column'
+  },
+  titleText: {
+    fontFamily: 'pacifico-regular',
+    fontSize: 20,
+    textAlign: 'center',
+    flex: 1
   }
 });
