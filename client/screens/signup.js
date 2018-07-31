@@ -4,8 +4,8 @@ import {
   Button,
   TextInput,
   StyleSheet,
-  AsyncStorage,
-  BackHandler
+  BackHandler,
+  KeyboardAvoidingView
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -36,23 +36,31 @@ class SignUpScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <TextInput placeholder="Username" style={styles.input}
+      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+        <TextInput 
+          placeholder="Username" 
+          style={styles.input}
           onChangeText={(username) => this.setState({ username })}
           spellCheck={false}
           autoCorrect={false}
           autoCapitalize='none'
-          value={this.state.username}
-          />
-        <TextInput placeholder="Password" style={styles.input}
+          value={this.state.username} />
+
+        <TextInput 
+          placeholder="Password" 
+          style={styles.input}
           onChangeText={(password) => this.setState({ password })}
           value={this.state.password}
           secureTextEntry={true} />
-        <Button title="join" onPress={() => {
-          this.props.signUp(this.state.username, this.state.password);
-        }} disabled={!this.state.username || !this.state.password }
+
+        <Button 
+          title="join" 
+          onPress={() => {
+            this.props.signUp(this.state.username, this.state.password);
+          }} 
+          disabled={!this.state.username || !this.state.password}
           style={styles.button}/>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -62,7 +70,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
   },
   button: {
     alignSelf: "stretch",
