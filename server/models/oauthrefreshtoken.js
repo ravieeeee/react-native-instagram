@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var OAuthRefreshToken = sequelize.define('OAuthRefreshToken', {
+  const OAuthRefreshToken = sequelize.define('OAuthRefreshToken', {
     refreshToken: DataTypes.STRING,
     expiresAt: DataTypes.DATE,
     scope: DataTypes.STRING,

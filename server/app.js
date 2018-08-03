@@ -1,16 +1,16 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var OAuthServer = require('express-oauth-server');
-var methodOverride = require('method-override');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const OAuthServer = require('express-oauth-server');
+const methodOverride = require('method-override');
 
-var indexRouter = require('./routes/index');
-var postsRouter = require('./routes/api/posts');
+const indexRouter = require('./routes/index');
+const postsRouter = require('./routes/api/posts');
 
-var app = express();
+const app = express();
 
 app.oauth = new OAuthServer({
   model: require('./utils/oauth')
@@ -36,12 +36,12 @@ app.use('/api', require('./routes/api')(app));
 app.use('/posts', postsRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
