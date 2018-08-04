@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, Alert, Button } from 'react-native';
+import { 
+  StyleSheet, 
+  TextInput, 
+  View, 
+  Alert, 
+  Button,
+  ActivityIndicator
+} from 'react-native';
 import { FormLabel } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -13,9 +20,11 @@ class WriteScreen extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       title: '',
-      content: ''
+      content: '',
+      isLoading: false,
     };
   }
 
@@ -28,15 +37,31 @@ class WriteScreen extends Component {
         {text: 'OK', onPress: () => {
           console.log('OK Pressed');
           this.props.addPost(this.state.title, this.state.content);
+          this.setState({isLoading: true});
         }},
       ],
       { cancelable: false }
     )
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.posts != nextProps.posts) {
+      this.setState({isLoading: false});
+    }
+  }
+
   render() {
     return (
       <View style={styles.root}>
+        {
+          this.state.isLoading ? (
+            <ActivityIndicator
+              size="large" 
+              color="#0000ff"
+              style={{alignItems: 'center', justifyContent: 'center'}} />
+          ) : null
+        }
+
         <View>
           <FormLabel>Title</FormLabel>
           <TextInput
@@ -44,24 +69,24 @@ class WriteScreen extends Component {
             onChangeText={(title) => this.setState({title})}
           />
         </View>
+
         <View>
           <FormLabel>Content</FormLabel>
           <TextInput
             style={styles.contentInputStyle}
             multiline={true}
-            onChangeText={(content) => this.setState({content})}
-          />
+            onChangeText={(content) => this.setState({content})} />
         </View>
-        <Button title="Submit" onPress={() => {
-          this.onKeyPress()
-        }} disabled={!this.state.title || !this.state.content }
-          style={styles.button}/>
+
+        <Button 
+          title="Submit" 
+          onPress={() => {this.onKeyPress()}} 
+          disabled={!this.state.title || !this.state.content}
+          style={styles.button} />
       </View>
     );
   }
 }
-
-export default connect(null, { addPost })(WriteScreen);
 
 const styles = StyleSheet.create({
   root: {
@@ -89,3 +114,9 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 });
+
+function mapStateToProps(state) {
+  return { posts: state.myPosts };
+}
+
+export default connect(mapStateToProps, {addPost})(WriteScreen);
