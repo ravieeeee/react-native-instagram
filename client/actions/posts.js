@@ -45,7 +45,8 @@ export function addPost(title, content) {
       return axios.post(`${Config.server}/posts`,
         new_post, {
           headers: { 'Content-Type': 'application/json' }
-        });
+        }
+      );
     }).then(post => {
       dispatch({type: 'ADDED_POST', payload: post.data});
       ToastAndroid.show('글이 등록되었습니다.', ToastAndroid.SHORT);
