@@ -1,8 +1,8 @@
-var express = require('express');
+const express = require('express');
 
-var db = require('../../models');
+const db = require('../../models');
 const asyncError = require('../../utils/async-error');
-var router = express.Router();
+const router = express.Router();
 
 module.exports = function(app) {
   router.post('/', asyncError(async (req, res, next) => {

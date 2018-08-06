@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var createError = require('http-errors');
+const express = require('express');
+const router = express.Router();
+const createError = require('http-errors');
 
 
 module.exports = function(app) {

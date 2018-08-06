@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
-var Post = require('../../models').Post;
-var LikeLog = require('../../models').LikeLog;
-var catchErrors = require('../../utils/async-error');
-var Sequelize = require('sequelize');
+const express = require('express');
+const router = express.Router();
+const Post = require('../../models').Post;
+const LikeLog = require('../../models').LikeLog;
+const catchErrors = require('../../utils/async-error');
+const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 
@@ -24,7 +24,7 @@ router.get('/others/:id', catchErrors(async (req, res) => {
         [Op.ne] : req.params.id
       }
     },
-    order: [ [ 'createdAt', 'DESC' ]]
+    order: [['createdAt', 'DESC']]
   });
   res.status(200).send(posts);
 }));
@@ -109,7 +109,7 @@ router.get('/like/:id', catchErrors(async (req, res) => {
     where: {
       owner_id: req.params.id
     },
-    order: [ [ 'createdAt', 'DESC' ]]
+    order: [['createdAt', 'DESC']]
   });
   res.status(200).send(likeLogs);
 }));
@@ -129,7 +129,7 @@ router.get('/like/other/:id', catchErrors(async (req, res) => {
 
 // 검색
 router.get('/search/:keyword', catchErrors(async (req, res) => {
-  var searchResult = await Post.findAll({
+  const searchResult = await Post.findAll({
     where: {
       [Op.or] : [
         {title: {

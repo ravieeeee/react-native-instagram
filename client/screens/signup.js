@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-  View,
   Button,
   TextInput,
   StyleSheet,
@@ -19,6 +18,7 @@ class SignUpScreen extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       username: '',
       password: ''
@@ -59,7 +59,7 @@ class SignUpScreen extends Component {
             this.props.signUp(this.state.username, this.state.password);
           }} 
           disabled={!this.state.username || !this.state.password}
-          style={styles.button}/>
+          style={styles.button} />
       </KeyboardAvoidingView>
     );
   }

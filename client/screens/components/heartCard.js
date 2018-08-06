@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 
 export default class HeartCard extends Component {
@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     flex: 1,
     marginTop: 15,
-    backgroundColor: '#ededed',
   },
   txts: {
     marginTop: 30,

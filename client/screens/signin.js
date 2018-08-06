@@ -4,7 +4,7 @@ import {
   Button,
   TextInput,
   StyleSheet,
-  Platform, 
+  Platform,
   StatusBar,
   Text,
   KeyboardAvoidingView
@@ -49,37 +49,46 @@ class SignInScreen extends React.Component {
           ) : null
         }
 
-        <TextInput 
-          placeholder="Username" 
+        <TextInput
           style={styles.input}
+          placeholder='Username'
           onChangeText={(username) => this.setState({ username })}
           spellCheck={false}
           autoCorrect={false}
           autoCapitalize='none'
+          returnKeyType='next'
+          onSubmitEditing={() => { this.secondTextInput.focus(); }}
+          blurOnSubmit={false}
           value={this.state.username} />
             
-        <TextInput 
-          placeholder="Password" 
+        <TextInput
           style={styles.input}
+          ref={(input) => { this.secondTextInput = input; }}
+          placeholder='Password'
           onChangeText={(password) => this.setState({ password })}
+          autoCapitalize='none'
+          secureTextEntry={true}
           value={this.state.password}
-          secureTextEntry={true} />
+          returnKeyType='send'
+          onSubmitEditing={() => {
+            this.props.signin(this.state.username, this.state.password);
+          }} />
       
         <View style={{ flexDirection: 'row' }}>
-          <Button 
+          <Button
+            style={styles.button}
             title="Sign in" 
             onPress={() => {
               this.props.signin(this.state.username, this.state.password);
             }} 
-            disabled={!this.state.username || !this.state.password }
-            style={styles.button} />
+            disabled={!this.state.username || !this.state.password } />
           <View style={{ margin: 5}} />
-          <Button 
+          <Button
+            style={styles.button}
             title="Sign up" 
             onPress={() => {
               this.props.navigation.navigate('SignUp');
-            }} 
-            style={styles.button} />
+            }} />
         </View>
       </KeyboardAvoidingView>
     );
