@@ -3,8 +3,8 @@ const router = express.Router();
 const createError = require('http-errors');
 
 
-module.exports = function(app) {
-  app.use(function(req, res, next) {
+module.exports = (app) => {
+  app.use((req, res, next) => {
     console.log(req.headers);
     next();
   });
@@ -13,12 +13,12 @@ module.exports = function(app) {
   router.use('/users', require('./users')(app));
 
   // catch 404 and forward to error handler
-  router.use(function (req, res, next) {
+  router.use((req, res, next) => {
     next(createError(404));
   });
 
   // error handler
-  router.use(function (err, req, res, next) {
+  router.use((err, req, res, next) => {
     const error = req.app.get('env') === 'development' ? err : {};
     // render the error page
     res.status(err.status || 500);

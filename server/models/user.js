@@ -2,7 +2,7 @@
 const bcrypt = require('bcrypt');
 
 module.exports = (sequelize, DataTypes) => {
-  var User = sequelize.define('User', {
+  const User = sequelize.define('User', {
     username: DataTypes.STRING,
     password_digest: {
       type: DataTypes.STRING,
@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   User.prototype.toJSON = function() {
-    var values = Object.assign({}, this.get());
+    const values = Object.assign({}, this.get());
 
     delete values.password;
     delete values.password_digest;
