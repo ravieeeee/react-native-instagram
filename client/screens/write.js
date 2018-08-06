@@ -52,13 +52,17 @@ class WriteScreen extends Component {
 
   render() {
     return (
-      <View style={styles.root}>
+      <View 
+        style={styles.root}
+        pointerEvents={this.state.isLoading ? 'none' : 'auto'}>
+        
         {
           this.state.isLoading ? (
             <ActivityIndicator
               size="large" 
               color="#0000ff"
-              style={{alignItems: 'center', justifyContent: 'center'}} />
+              style={{alignItems: 'center', justifyContent: 'center'}}>
+            </ActivityIndicator>
           ) : null
         }
 
@@ -78,11 +82,11 @@ class WriteScreen extends Component {
             onChangeText={(content) => this.setState({content})} />
         </View>
 
-        <Button 
+        <Button
+          style={styles.button}
           title="Submit" 
           onPress={() => {this.onKeyPress()}} 
-          disabled={!this.state.title || !this.state.content}
-          style={styles.button} />
+          disabled={!this.state.title || !this.state.content} />
       </View>
     );
   }
