@@ -6,6 +6,29 @@ const catchErrors = require('../../utils/async-error');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
+const aws = require('aws-sdk');
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+
+const s3 = new aws.S3();
+
+const storageS3 = multerS3({
+  s3: s3,
+  // FIXME S3 버켓 이름 변경
+  bucket: '<S3_BUCKET_NAME>',
+  acl: 'public-read',
+  key: function (req, file, callback) {
+    const fname = Date.now() + '_' + file.originalname;
+    callback(null, fname);
+  }
+});
+
+const uploadImage = multer({storage: storageS3});
+// const uploadArray = multer({storage: storageS3}).array('images', 5);
+
+// FIXME config에 aws_config.json 추가
+// aws configure
+aws.config.loadFromPath('./config/aws_config.json');
 
 router.get('/mine/:id', catchErrors(async (req, res) => {
   const posts = await Post.findAll({
@@ -58,12 +81,14 @@ router.put('/:id', catchErrors(async (req, res) => {
 }));
 
 // 글 등록
-router.post('/', catchErrors(async (req, res) => {
+router.post('/', uploadImage.single('image'), catchErrors(async (req, res) => {
   const post = await Post.create({
     title: req.body.title,
     user_id: req.body.user_id,
     user_name: req.body.user_name,
-    image: req.body.image,
+    // image: req.body.image,
+    // 이미지 업로드 안한경우에는 null
+    image: req.file ? null : req.file.location,
     heart: req.body.heart,
     content: req.body.content
   });
