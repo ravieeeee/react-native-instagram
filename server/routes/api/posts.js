@@ -5,10 +5,12 @@ const LikeLog = require('../../models').LikeLog;
 const catchErrors = require('../../utils/async-error');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const path = require('path');
 
 const aws = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
+const aws_config = path.resolve(__dirname, './config/aws_config.json');
 
 const s3 = new aws.S3();
 
@@ -28,7 +30,7 @@ const uploadImage = multer({storage: storageS3});
 
 // FIXME config에 aws_config.json 추가
 // aws configure
-aws.config.loadFromPath('./config/aws_config.json');
+aws.config.loadFromPath(aws_config);
 
 router.get('/mine/:id', catchErrors(async (req, res) => {
   const posts = await Post.findAll({
