@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import { 
   StyleSheet, 
   TextInput, 
-  View, 
-  Alert, 
+  View,
+  Alert,
   Button,
-  ActivityIndicator
+  ActivityIndicator,
+  Image,
+  Text
 } from 'react-native';
 import { FormLabel } from 'react-native-elements';
 import { connect } from 'react-redux';
+import { ImagePicker, Permissions } from 'expo';
 
 import { addPost } from '../actions/posts';
 
@@ -25,6 +28,8 @@ class WriteScreen extends Component {
       title: '',
       content: '',
       isLoading: false,
+      image: null,
+      imageUploaded: false,
     };
   }
 
@@ -36,7 +41,7 @@ class WriteScreen extends Component {
         {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
         {text: 'OK', onPress: () => {
           console.log('OK Pressed');
-          this.props.addPost(this.state.title, this.state.content);
+          this.props.addPost(this.state.title, this.state.content, this.state.image);
           this.setState({isLoading: true});
         }},
       ],
@@ -50,6 +55,66 @@ class WriteScreen extends Component {
     }
   }
 
+  _pickImage = async () => {
+    const {
+      status: cameraRollPerm
+    } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+    if (cameraRollPerm === 'granted') {
+      let pickerResult = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+      });
+
+      this._handleImagePicked(pickerResult);
+    }
+  };
+
+  _handleImagePicked = async pickerResult => {
+    console.log("pickerResult.uri : " + pickerResult.uri);
+    console.log("pickerResult.cancelled : " + pickerResult.cancelled);
+    let uploadResponse, uploadResult;
+
+    try {
+      if (!pickerResult.cancelled) {
+        uploadResponse = await uploadImageAsync(pickerResult.uri);
+        uploadResult = await uploadResponse.json();
+
+        this.setState({
+          image: uploadResult.location,
+          imageUploaded: true
+        });
+      }
+    } catch (e) {
+      console.log({ uploadResponse });
+      console.log({ uploadResult });
+      console.log({ e });
+      alert('업로드 실패 :(');
+    }
+  };
+
+  _maybeRenderImage = () => {
+    let {
+      image
+    } = this.state;
+
+    if (!image) {
+      return;
+    }
+
+    return (
+      <View>
+        <View>
+          <Image source={{ uri: image }} style={styles.maybeRenderImage} />
+        </View>
+
+        <Text>
+          {image}
+        </Text>
+      </View>
+    );
+  };
+
   render() {
     return (
       <View 
@@ -57,7 +122,8 @@ class WriteScreen extends Component {
         pointerEvents={this.state.isLoading ? 'none' : 'auto'}>
         
         {
-          this.state.isLoading ? (
+          this.state.isLoading ? 
+          (
             <ActivityIndicator
               size="large" 
               color="#0000ff"
@@ -65,13 +131,17 @@ class WriteScreen extends Component {
             </ActivityIndicator>
           ) : null
         }
+        
+        <Button
+          onPress={this._pickImage}
+          title="Pick an image" />
+        {this._maybeRenderImage()}
 
         <View>
           <FormLabel>Title</FormLabel>
           <TextInput
             style={styles.titleInputStyle}
-            onChangeText={(title) => this.setState({title})}
-          />
+            onChangeText={(title) => this.setState({title})} />
         </View>
 
         <View>
@@ -90,6 +160,31 @@ class WriteScreen extends Component {
       </View>
     );
   }
+}
+
+async function uploadImageAsync(uri) {
+  let apiUrl = 'http://10.0.2.2:3000/posts/';
+
+  let uriParts = uri.split('.');
+  let fileType = uriParts[uriParts.length - 1];
+
+  let formData = new FormData();
+  formData.append('image', {
+    uri,
+    name: `photo.${fileType}`,
+    type: `image/${fileType}`,
+  });
+
+  let options = {
+    method: 'POST',
+    body: formData,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+    },
+  };
+
+  return fetch(apiUrl, options);
 }
 
 const styles = StyleSheet.create({
@@ -116,6 +211,10 @@ const styles = StyleSheet.create({
   button: {
     alignSelf: 'stretch',
     marginTop: 5,
+  },
+  maybeRenderImage: {
+    height: 250,
+    width: 250,
   },
 });
 
