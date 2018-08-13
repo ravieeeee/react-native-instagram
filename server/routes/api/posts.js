@@ -11,13 +11,15 @@ const aws = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const aws_config = path.resolve(__dirname, '../../config/aws_config.json');
+const s3_secret = require('../../config/s3_secret.json');
+
+aws.config.loadFromPath(aws_config);
 
 const s3 = new aws.S3();
 
 const storageS3 = multerS3({
-  s3: s3,
-  // FIXME S3 버켓 이름 변경
-  bucket: '<S3_BUCKET_NAME>',
+  s3,
+  bucket: s3_secret.bucket_name,
   acl: 'public-read',
   key: function (req, file, callback) {
     const fname = Date.now() + '_' + file.originalname;
@@ -28,16 +30,12 @@ const storageS3 = multerS3({
 const uploadImage = multer({storage: storageS3});
 // const uploadArray = multer({storage: storageS3}).array('images', 5);
 
-// FIXME config에 aws_config.json 추가
-// aws configure
-aws.config.loadFromPath(aws_config);
-
 router.get('/mine/:id', catchErrors(async (req, res) => {
   const posts = await Post.findAll({
     where: {
       user_id: req.params.id
     },
-    order: [ [ 'createdAt', 'DESC' ]]
+    order: [['createdAt', 'DESC']]
   });
   res.status(200).send(posts);
 }));
