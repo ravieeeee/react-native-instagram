@@ -82,18 +82,15 @@ router.put('/:id', catchErrors(async (req, res) => {
 
 // 글 등록
 router.post('/', uploadImage.single('image'), catchErrors(async (req, res) => {
-  // const post = await Post.create({
-  //   title: req.body.title,
-  //   user_id: req.body.user_id,
-  //   user_name: req.body.user_name,
-  //   // image: req.body.image,
-  //   // 이미지 업로드 안한경우에는 null
-  //   image: req.file ? null : req.file.location,
-  //   heart: req.body.heart,
-  //   content: req.body.content
-  // });
-  // res.status(201).send(post);
-  res.json(req.file);
+  const post = await Post.create({
+    title: req.body.title,
+    user_id: req.body.user_id,
+    user_name: req.body.user_name,
+    image: req.file ? req.file.location : null,
+    heart: req.body.heart,
+    content: req.body.content
+  });
+  res.status(201).send(post);
 }));
 
 // 글 삭제

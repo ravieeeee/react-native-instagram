@@ -28,32 +28,37 @@ export function fetchMyPosts() {
   }
 }
 
-export function addPost(title, content) {
-  return (dispatch, getState) => {
-    Promise.all([
-      getState().currentUser,
-      axios.get('https://picsum.photos/400/200/?random')
-    ]).then(([currentUser, response]) => {
-      var new_post = {
-        title,
-        user_id: currentUser.id,
-        user_name: currentUser.username,
-        image: response.request.responseURL,
-        heart: 0,
-        content,
-      };
-      return axios.post(`${Config.server}/posts`,
-        new_post, {
-          headers: { 'Content-Type': 'application/json' }
-        }
-      );
-    }).then(post => {
-      dispatch({type: 'ADDED_POST', payload: post.data});
-      ToastAndroid.show('글이 등록되었습니다.', ToastAndroid.SHORT);
-      NavigationService.navigate('Profile');
-    }).catch(err => {
-      console.log(err.response || err);
+export function addPost(title, content, uri) {
+  return async (dispatch, getState) => {
+    var uriParts = uri.split('.');
+    var fileType = uriParts[uriParts.length - 1];
+
+    const formData = new FormData();
+    formData.append('image', {
+      uri,
+      name: `photo.${fileType}`,
+      type: `image/${fileType}`,
     });
+
+    var currentUser = await getState().currentUser;
+    formData.append('title', title);
+    formData.append('user_id', currentUser.id);
+    formData.append('user_name', currentUser.username);
+    formData.append('heart', 0);
+    formData.append('content', content);
+
+    const post = await axios.post(`${Config.server}/posts`,
+      formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Accept: 'application/json'
+        }
+      }
+    );
+
+    dispatch({type: 'ADDED_POST', payload: post.data});
+    ToastAndroid.show('글이 등록되었습니다.', ToastAndroid.SHORT);
+    NavigationService.navigate('Profile');
   }
 }
 

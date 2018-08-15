@@ -74,8 +74,6 @@ class WriteScreen extends Component {
 
     try {
       if (!pickerResult.cancelled) {
-        uploadResponse = await uploadImageAsync(pickerResult.uri);
-
         this.setState({
           image: pickerResult.uri
         });
@@ -123,8 +121,7 @@ class WriteScreen extends Component {
             <ActivityIndicator
               size="large" 
               color="#0000ff"
-              style={{alignItems: 'center', justifyContent: 'center'}}>
-            </ActivityIndicator>
+              style={{alignItems: 'center', justifyContent: 'center'}} />
           ) : null
         }
         
@@ -153,31 +150,6 @@ class WriteScreen extends Component {
       </View>
     );
   }
-}
-
-async function uploadImageAsync(uri) {
-  let apiUrl = 'http://10.0.2.2:3000/posts/';
-
-  let uriParts = uri.split('.');
-  let fileType = uriParts[uriParts.length - 1];
-
-  let formData = new FormData();
-  formData.append('image', {
-    uri,
-    name: `photo.${fileType}`,
-    type: `image/${fileType}`,
-  });
-
-  let options = {
-    method: 'POST',
-    body: formData,
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'multipart/form-data',
-    },
-  };
-
-  return fetch(apiUrl, options);
 }
 
 const styles = StyleSheet.create({
