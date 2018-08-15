@@ -6,12 +6,12 @@ import {
   Alert,
   Button,
   ActivityIndicator,
-  Image,
-  Text
+  TouchableHighlight
 } from 'react-native';
 import { FormLabel } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { ImagePicker, Permissions } from 'expo';
+import FullWidthImage from 'react-native-fullwidth-image'
 
 import { addPost } from '../actions/posts';
 
@@ -28,8 +28,7 @@ class WriteScreen extends Component {
       title: '',
       content: '',
       isLoading: false,
-      image: null,
-      imageUploaded: false,
+      image: null
     };
   }
 
@@ -71,23 +70,18 @@ class WriteScreen extends Component {
   };
 
   _handleImagePicked = async pickerResult => {
-    console.log("pickerResult.uri : " + pickerResult.uri);
-    console.log("pickerResult.cancelled : " + pickerResult.cancelled);
-    let uploadResponse, uploadResult;
+    let uploadResponse;
 
     try {
       if (!pickerResult.cancelled) {
         uploadResponse = await uploadImageAsync(pickerResult.uri);
-        uploadResult = await uploadResponse.json();
 
         this.setState({
-          image: uploadResult.location,
-          imageUploaded: true
+          image: pickerResult.uri
         });
       }
     } catch (e) {
       console.log({ uploadResponse });
-      console.log({ uploadResult });
       console.log({ e });
       alert('업로드 실패 :(');
     }
@@ -99,18 +93,20 @@ class WriteScreen extends Component {
     } = this.state;
 
     if (!image) {
-      return;
+      return (
+        <Button
+          onPress={this._pickImage}
+          title="Pick an image" />
+      );
     }
 
     return (
       <View>
-        <View>
-          <Image source={{ uri: image }} style={styles.maybeRenderImage} />
-        </View>
-
-        <Text>
-          {image}
-        </Text>
+        <TouchableHighlight onPress={this._pickImage}>
+          <FullWidthImage
+            source={{ uri: image }}
+            ratio={3/4} />
+        </TouchableHighlight>
       </View>
     );
   };
@@ -132,9 +128,6 @@ class WriteScreen extends Component {
           ) : null
         }
         
-        <Button
-          onPress={this._pickImage}
-          title="Pick an image" />
         {this._maybeRenderImage()}
 
         <View>
@@ -154,9 +147,9 @@ class WriteScreen extends Component {
 
         <Button
           style={styles.button}
-          title="Submit" 
+          title="Submit"
           onPress={() => {this.onKeyPress()}} 
-          disabled={!this.state.title || !this.state.content} />
+          disabled={!this.state.title || !this.state.content || !this.state.image} />
       </View>
     );
   }
@@ -211,10 +204,6 @@ const styles = StyleSheet.create({
   button: {
     alignSelf: 'stretch',
     marginTop: 5,
-  },
-  maybeRenderImage: {
-    height: 250,
-    width: 250,
   },
 });
 
