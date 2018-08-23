@@ -28,11 +28,11 @@ class LogoTitle extends Component {
 
   render() {
     return (
-        this.state.fontLoaded ? (
-          <Text style={styles.titleText}>
-            Instagram
-          </Text>
-        ) : null
+      this.state.fontLoaded ? (
+        <Text style={styles.titleText}>
+          Instagram
+        </Text>
+      ) : null
     );
   }
 }

@@ -39,9 +39,12 @@ class WriteScreen extends Component {
       [
         {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
         {text: 'OK', onPress: () => {
-          console.log('OK Pressed');
-          this.props.addPost(this.state.title, this.state.content, this.state.image);
           this.setState({isLoading: true});
+          this.props.addPost(this.state.title, this.state.content, this.state.image);
+
+          this.setState({image: null});
+          this.titleInputRef.clear();
+          this.contentInputRef.clear();
         }},
       ],
       { cancelable: false }
@@ -94,7 +97,7 @@ class WriteScreen extends Component {
       return (
         <Button
           onPress={this._pickImage}
-          title="Pick an image" />
+          title='Pick an image' />
       );
     }
 
@@ -119,8 +122,8 @@ class WriteScreen extends Component {
           this.state.isLoading ? 
           (
             <ActivityIndicator
-              size="large" 
-              color="#0000ff"
+              size='large'
+              color='#0000ff'
               style={{alignItems: 'center', justifyContent: 'center'}} />
           ) : null
         }
@@ -131,6 +134,7 @@ class WriteScreen extends Component {
           <FormLabel>Title</FormLabel>
           <TextInput
             style={styles.titleInputStyle}
+            ref={ref => {this.titleInputRef = ref}}
             onChangeText={(title) => this.setState({title})} />
         </View>
 
@@ -138,13 +142,14 @@ class WriteScreen extends Component {
           <FormLabel>Content</FormLabel>
           <TextInput
             style={styles.contentInputStyle}
+            ref={ref => {this.contentInputRef = ref}}
             multiline={true}
             onChangeText={(content) => this.setState({content})} />
         </View>
 
         <Button
           style={styles.button}
-          title="Submit"
+          title='Submit'
           onPress={() => {this.onKeyPress()}} 
           disabled={!this.state.title || !this.state.content || !this.state.image} />
       </View>
@@ -157,20 +162,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   titleInputStyle: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     height: 40,
     margin: 5,
     padding: 10,
     borderWidth: 1,
-    borderColor: "#eee",
+    borderColor: '#eee',
     borderRadius: 10
   },
   contentInputStyle: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     margin: 5,
     padding: 10,
     borderWidth: 1,
-    borderColor: "#eee",
+    borderColor: '#eee',
     borderRadius: 10
   },
   button: {

@@ -33,9 +33,9 @@ export function signin(username, password) {
 }
 
 export function signUp(username, password) {
-  return async dispatch => {
+  return async () => {
     try {
-      const response = await axios.post(`${Config.server}/api/users`,
+      await axios.post(`${Config.server}/api/users`,
         {
           username: username,
           password: password,
@@ -54,7 +54,7 @@ export function signUp(username, password) {
 }
 
 export function signout() {
-  return async dispatch => {
+  return async () => {
     delete axios.defaults.headers.common['Authorization'];
     await AsyncStorage.clear();
     NavigationService.navigate('Auth');

@@ -7,8 +7,8 @@ import NavigationService from '../navigation_service';
 export function fetchPosts() {
   return async (dispatch, getState) => {
     try {
-      var id = await getState().currentUser.id;
-      var response = await axios.get(`${Config.server}/posts/others/${id}`);
+      const id = await getState().currentUser.id;
+      const response = await axios.get(`${Config.server}/posts/others/${id}`);
       dispatch({type: 'FETCHED_POSTS', payload: response.data});
     } catch (err) {
       console.log(err.response || err);
@@ -19,8 +19,8 @@ export function fetchPosts() {
 export function fetchMyPosts() {
   return async (dispatch, getState) => {
     try {
-      var id = await getState().currentUser.id;
-      var response = await axios.get(`${Config.server}/posts/mine/${id}`);
+      const id = await getState().currentUser.id;
+      const response = await axios.get(`${Config.server}/posts/mine/${id}`);
       dispatch({type: 'FETCHED_MY_POSTS', payload: response.data});
     } catch (err) {
       console.log(err.response || err);
@@ -30,8 +30,8 @@ export function fetchMyPosts() {
 
 export function addPost(title, content, uri) {
   return async (dispatch, getState) => {
-    var uriParts = uri.split('.');
-    var fileType = uriParts[uriParts.length - 1];
+    const uriParts = uri.split('.');
+    const fileType = uriParts[uriParts.length - 1];
 
     const formData = new FormData();
     formData.append('image', {
@@ -40,7 +40,7 @@ export function addPost(title, content, uri) {
       type: `image/${fileType}`,
     });
 
-    var currentUser = await getState().currentUser;
+    const currentUser = await getState().currentUser;
     formData.append('title', title);
     formData.append('user_id', currentUser.id);
     formData.append('user_name', currentUser.username);
@@ -65,10 +65,10 @@ export function addPost(title, content, uri) {
 export function like(post_id, idx, img, owner_id) {
   return async (dispatch, getState) => {
     try {
-      var liker_name = await getState().currentUser.username;
-      var liker_id = await getState().currentUser.id;
+      const liker_name = await getState().currentUser.username;
+      const liker_id = await getState().currentUser.id;
       
-      var new_log = {
+      const new_log = {
         liker_id,
         liker_name,
         owner_id,
@@ -93,8 +93,8 @@ export function like(post_id, idx, img, owner_id) {
 export function fetchLikeLogs() {
   return async (dispatch, getState) => {
     try {
-      var id = await getState().currentUser.id;
-      var response = await axios.get(`${Config.server}/posts/like/${id}`);
+      const id = await getState().currentUser.id;
+      const response = await axios.get(`${Config.server}/posts/like/${id}`);
       dispatch({type: 'FETCHED_LOGS', payload: response.data});
     } catch (err) {
       console.log(err.response || err);
@@ -105,8 +105,8 @@ export function fetchLikeLogs() {
 export function fetchOthersLikeLogs() {
   return async (dispatch, getState) => {
     try {
-      var id = await getState().currentUser.id;
-      var response = await axios.get(`${Config.server}/posts/like/other/${id}`);
+      const id = await getState().currentUser.id;
+      const response = await axios.get(`${Config.server}/posts/like/other/${id}`);
       dispatch({type: 'FETCHED_OTHER_LOGS', payload: response.data});
     } catch (err) {
       console.log(err.response || err);
@@ -117,8 +117,7 @@ export function fetchOthersLikeLogs() {
 export function fetchSearched(keyword) {
   return async (dispatch) => {
     try {
-      var searched = await axios.get(`${Config.server}/posts/search/${keyword}`);
-      console.log(searched.data);
+      const searched = await axios.get(`${Config.server}/posts/search/${keyword}`);
       dispatch({type: 'FETCHED_SEARCHED', payload: searched.data});
     } catch (err) {
       console.log(err.response || err);
