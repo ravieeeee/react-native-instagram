@@ -2,11 +2,11 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 
-export default props => (
+export default ({likelog}) => (
   <View style={styles.root}>
     <Text style={styles.txts}>
       <Text style={styles.tb}>
-        {props.likelog.liker_name}
+        {likelog.liker_name}
       </Text>
       <Text>
         님이 회원님의 게시물을 좋아합니다.
@@ -14,7 +14,7 @@ export default props => (
     </Text>
     <Avatar
       large
-      source={{uri: props.likelog.img}} />
+      source={{uri: likelog.img}} />
   </View>
 );
 
