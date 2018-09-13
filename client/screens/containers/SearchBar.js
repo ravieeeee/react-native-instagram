@@ -7,7 +7,7 @@ import {
 import { connect } from 'react-redux';
 import { SearchBar } from 'react-native-elements';
 
-import { fetchSearched } from '../../actions/posts';
+import { fetchSearched } from '@actions/posts';
 
 var searchText = undefined;
 

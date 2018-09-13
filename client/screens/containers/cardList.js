@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
-import { fetchPosts, like, fetchOthersLikeLogs } from '../../actions/posts';
-import PostCard from '../components/postCard';
+import { fetchPosts, like, fetchOthersLikeLogs } from '@actions/posts';
+import PostCard from '@components/postCard';
 
 
 class CardList extends Component {

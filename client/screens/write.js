@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import { ImagePicker, Permissions } from 'expo';
 import FullWidthImage from 'react-native-fullwidth-image'
 
-import { addPost } from '../actions/posts';
+import { addPost } from '@actions/posts';
 
 
 class WriteScreen extends Component {

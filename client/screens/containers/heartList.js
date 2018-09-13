@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 
-import { fetchLikeLogs } from '../../actions/posts';
-import HeartCard from '../components/heartCard';
+import { fetchLikeLogs } from '@actions/posts';
+import HeartCard from '@components/heartCard';
 
 
 class HeartList extends Component {

@@ -12,7 +12,7 @@ import {
 import { Font } from 'expo';
 import { connect } from 'react-redux';
 
-import { signin } from '../actions/users';
+import { signin } from '@actions/users';
 
 
 class SignInScreen extends React.Component {

@@ -4,7 +4,7 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import HeartList from './containers/heartList';
+import HeartList from '@containers/heartList';
 
 
 export default class HeartScreen extends Component {

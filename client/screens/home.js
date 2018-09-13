@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { Font } from 'expo';
 
-import CardList from './containers/cardList';
+import CardList from '@containers/cardList';
 
 
 class LogoTitle extends Component {

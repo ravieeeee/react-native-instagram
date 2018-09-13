@@ -10,8 +10,8 @@ import {
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-import { fetchMyPosts } from '../actions/posts';
-import UserInfo from './containers/userInfo';
+import { fetchMyPosts } from '@actions/posts';
+import UserInfo from '@containers/userInfo';
 
 
 class ProfileScreen extends Component {
