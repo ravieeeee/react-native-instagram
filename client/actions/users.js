@@ -4,6 +4,8 @@ import { AsyncStorage, ToastAndroid } from 'react-native';
 import { Config } from '../config';
 import NavigationService from '../navigation_service';
 
+export const FETCHED_CUR_USER = 'FETCHED_CUR_USER';
+
 
 export function signin(username, password) {
   return async dispatch => {
@@ -22,7 +24,7 @@ export function signin(username, password) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
       await AsyncStorage.setItem('accessToken', response.data.access_token);
       const curU = await axios.get(`${Config.server}/api/users/me`);
-      dispatch({type: 'FETCHED_CUR_USER', payload: curU.data});
+      dispatch({type: FETCHED_CUR_USER, payload: curU.data});
     
       NavigationService.navigate('App');
     } catch (err) {
